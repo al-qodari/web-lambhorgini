@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lamborghini Web</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #d4af37;
+      font-family: Arial, sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    header img {
+      width: 150px;
+      display: block;
+      margin: 20px auto 0;
+    }
+
+    .cars {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 30px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .car {
+      width: 180px;
+      position: relative;
+      animation: slideDown 2s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from {
+        bottom: 100px;
+        opacity: 0;
+      }
+      to {
+        bottom: 0;
+        opacity: 1;
+      }
+    }
+
+    .button-container {
+      display: grid;
+      grid-template-columns: repeat(2, 150px);
+      gap: 20px;
+      justify-content: center;
+      margin-top: 250px;
+      z-index: 1;
+      position: relative;
+    }
+
+    .lamborghini-btn {
+      background: linear-gradient(to bottom right, #000, #d4af37);
+      border: none;
+      border-radius: 12px;
+      padding: 10px;
+      cursor: pointer;
+      color: white;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lamborghini-btn span {
+      transform: translateX(100%);
+      animation: slideIn 0.8s forwards;
+      animation-delay: 0.2s;
+    }
+
+    .lamborghini-btn:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes slideIn {
+      to {
+        transform: translateX(0%);
+      }
+    }
+
+    .btn-logo {
+      width: 24px;
+      height: 24px;
+    }
+
+    .page {
+      display: none;
+      padding: 40px;
+      background-color: black;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: gold;
+    }
+
+    ol, ul {
+      padding-left: 20px;
+      color: gold;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      display: inline-block;
+      color: gold;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .mobil-item {
+      background-color: #1c1c1c;
+      color: gold;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <audio id="knalpot-sound" src="https://cdn.pixabay.com/audio/2022/08/04/audio_234a61df29.mp3" preload="auto"></audio>
+
+  <div id="home">
+    <header>
+      <img src="http://pngimg.com/uploads/lamborghini/lamborghini_PNG10709.png" alt="Lamborghini Logo">
+    </header>
+
+    <div class="cars">
+      <img class="car" src="https://pngimg.com/uploads/lamborghini/lamborghini_PNG102907.png" alt="Car Left">
+      <img class="car" src="https://pngimg.com/uploads/lamborghini/lamborghini_PNG102907.png" alt="Car Right">
+    </div>
+
+    <div class="button-container">
+      <button class="lamborghini-btn" onclick="showPage('sejarah')">
+        <img class="btn-logo" src="http://pngimg.com/uploads/lamborghini/lamborghini_PNG10709.png">
+        <span>Sejarah</span>
+      </button>
+      <button class="lamborghini-btn" onclick="showPage('pembalap')">
+        <img class="btn-logo" src="http://pngimg.com/uploads/lamborghini/lamborghini_PNG10709.png">
+        <span>Pembalap</span>
+      </button>
+      <button class="lamborghini-btn" onclick="showPage('rilis')">
+        <img class="btn-logo" src="http://pngimg.com/uploads/lamborghini/lamborghini_PNG10709.png">
+        <span>Rilis</span>
+      </button>
+      <button class="lamborghini-btn" onclick="showPage('mobil')">
+        <img class="btn-logo" src="http://pngimg.com/uploads/lamborghini/lamborghini_PNG10709.png">
+        <span>50 Mobil</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="sejarah" class="page">
+    <h1>Sejarah Lamborghini</h1>
+    <p>Lamborghini didirikan oleh Ferruccio Lamborghini pada tahun 1963 di Sant'Agata Bolognese, Italia...</p>
+    <div class="back-btn" onclick="goHome()">← Kembali</div>
+  </div>
+
+  <div id="pembalap" class="page">
+    <h1>Pembalap Lamborghini</h1>
+    <ul>
+      <li>Andrea Caldarelli</li>
+      <li>Mirko Bortolotti</li>
+      <li>Marco Mapelli</li>
+      <li>Franck Perera</li>
+      <li>Rolf Ineichen</li>
+      <li>Klaus Bachler</li>
+    </ul>
+    <div class="back-btn" onclick="goHome()">← Kembali</div>
+  </div>
+
+  <div id="rilis" class="page">
+    <h1>Rilis Lamborghini</h1>
+    <p>Lamborghini merilis banyak mobil legendaris seperti Aventador, Huracán, Urus, dan lainnya...</p>
+    <div class="back-btn" onclick="goHome()">← Kembali</div>
+  </div>
+
+  <div id="mobil" class="page">
+    <h1>50 Mobil Lamborghini</h1>
+    <div id="mobil-list"></div>
+    <div class="back-btn" onclick="goHome()">← Kembali</div>
+  </div>
+
+  <script>
+    function playSound() {
+      const sound = document.getElementById("knalpot-sound");
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    function showPage(pageId) {
+      playSound();
+      document.getElementById('home').style.display = 'none';
+      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+      document.getElementById(pageId).style.display = 'block';
+    }
+
+    function goHome() {
+      document.getElementById('home').style.display = 'block';
+      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+    }
+
+    const mobilList = [
+      "Aventador", "Huracán", "Gallardo", "Murciélago", "Diablo",
+      "Countach", "Miura", "Espada", "Reventón", "Veneno",
+      "Sesto Elemento", "Centenario", "Urus", "Silhouette", "Jarama",
+      "Islero", "LM002", "350 GT", "400 GT", "Bravo",
+      "Estoque", "Marzal", "Egoista", "Asterion", "SC20",
+      "SC18 Alston", "Terzo Millennio", "LM004", "Cheetah", "Jalpa",
+      "Concept S", "Murciélago SV", "Huracán STO", "Huracán Tecnica", "Aventador SVJ",
+      "Revuelto", "Urus Performante", "Huracán Sterrato", "Essenza SCV12", "Huracán GT3",
+      "Aventador J", "Huracán Evo", "Sian", "Countach LPI 800-4", "V12 Vision GT",
+      "Huracán Super Trofeo", "Reventón Roadster", "Lamborghini V10", "Lamborghini V12", "Huracán Spyder"
+    ];
+
+    const mobilListContainer = document.getElementById("mobil-list");
+
+    mobilList.forEach(nama => {
+      const div = document.createElement("div");
+      div.className = "mobil-item";
+      div.textContent = nama;
+      mobilListContainer.appendChild(div);
+    });
+  </script>
+</body>
+</html>
